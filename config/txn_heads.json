@@ -1,0 +1,32 @@
+{
+    "total": {
+        "title": "Total Price",
+        "description": "Total price of the photo",
+        "type": "number",
+        "rank": 1000
+    },
+    "area": {
+        "title": "Area",
+        "description": "Area of the photo",
+        "type": "number",
+        "rank": 3
+    },
+    "paper": {
+        "title": "Paper Type",
+        "description": "Paper type of the photo",
+        "type": "string",
+        "rank": 4
+    },
+    "width": {
+        "title": "Width",
+        "description": "Width of the photo",
+        "type": "number",
+        "rank": 1
+    },
+    "height": {
+        "title": "Height",
+        "description": "Height of the photo",
+        "type": "number",
+        "rank": 2
+    }
+}

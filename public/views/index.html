@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Price Estimation</title>
+    <link rel="stylesheet" href="/public/styles/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Photo Price Estimation</h1>
+        <form class="estimation-form" method="POST" action="/estimate">
+            <div class="form-group">
+                <label for="width">Width (inches)</label>
+                <input type="number" id="width" name="width" min="1" step="1" required inputmode="numeric" placeholder="Enter width" value="{{.Width}}" />
+            </div>
+            <div class="form-group">
+                <label for="height">Height (inches)</label>
+                <input type="number" id="height" name="height" min="1" step="1" required inputmode="numeric" placeholder="Enter height" value="{{.Height}}" />
+            </div>
+            <div class="form-group">
+                <label for="paper">Paper Type</label>
+                <select id="paper" name="paper" required>
+                    <option value="">Select paper type</option>
+                    {{range .Papers}}
+                        <option value="{{.PaperName}}" {{if eq .PaperName $.Paper}}selected{{end}}>{{.PaperName}}</option>
+                    {{end}}
+                </select>
+            </div>
+            <button type="submit" class="submit-btn">Estimate Price</button>
+        </form>
+        {{if .Result}}
+        <div class="result-box">
+            {{if .Result.Error}}
+                <div class="error-msg">{{.Result.Error}}</div>
+            {{else}}
+                <h2>Estimation Result</h2>
+                <div class="breakdown">
+                    {{range .Result.Breakdown}}
+                        <div><strong>{{index . 0}}:</strong> {{index . 1}}</div>
+                    {{end}}
+                    <div class="total"><strong>Total Price:</strong> ₹{{printf "%.2f" .Result.Total}}</div>
+                </div>
+            {{end}}
+        </div>
+        {{end}}
+    </div>
+</body>
+</html>

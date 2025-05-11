@@ -1,0 +1,18 @@
+{
+    "single_weight_matte": {
+        "price": 0.10,
+        "paper_name": "Single Weight Matte"
+    },
+    "photo_paper_glossy": {
+        "price": 0.12,
+        "paper_name": "Photo Paper Glossy"
+    },
+    "canvas": {
+        "price": 0.20,
+        "paper_name": "Canvas"
+    },
+    "translite": {
+        "price": 0.25,
+        "paper_name": "Translite"
+    }
+}
