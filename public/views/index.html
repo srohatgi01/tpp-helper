@@ -27,6 +27,10 @@
                     {{end}}
                 </select>
             </div>
+            <div class="form-group">
+                <label>Lamination</label>
+                <input type="checkbox" id="lamination" name="lamination" value="on" {{if .Lamination}}checked{{end}} />
+            </div>
             <button type="submit" class="submit-btn">Estimate Price</button>
         </form>
         {{if .Result}}

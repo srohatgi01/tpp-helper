@@ -8,9 +8,10 @@ import (
 )
 
 type PhotoService struct {
-	Width  int
-	Height int
-	Paper  string
+	Width      int
+	Height     int
+	Paper      string
+	Lamination bool
 }
 
 func (p *PhotoService) Validate() error {
@@ -27,11 +28,11 @@ func (p *PhotoService) Validate() error {
 	return nil
 }
 
-func (p *PhotoService) CalculateTotal() (float64, error) {
-	if err := p.Validate(); err != nil {
-		return 0, err
-	}
+func (p *PhotoService) GetArea() float64 {
+	return float64(p.Width) * float64(p.Height)
+}
 
+func (p *PhotoService) PhotoPrice() (float64, error) {
 	paperRates := data.GetPaperPriceMap()
 
 	rate, ok := paperRates[p.Paper]
@@ -43,15 +44,37 @@ func (p *PhotoService) CalculateTotal() (float64, error) {
 	return total, nil
 }
 
-func (p *PhotoService) GetArea() float64 {
-	return float64(p.Width) * float64(p.Height)
+func (p *PhotoService) GetLaminationPrice() float64 {
+	if p.Lamination {
+		lamination := data.GetLamination("normal_lamination")
+		return p.GetArea() * lamination.Price
+	}
+	return 0.0
+}
+
+func (p *PhotoService) CalculateTotal() (float64, error) {
+	if err := p.Validate(); err != nil {
+		return 0, err
+	}
+
+	photo_price, err := p.PhotoPrice()
+	if err != nil {
+		return 0, err
+	}
+	total := photo_price + p.GetLaminationPrice()
+	return total, nil
 }
 
 func (p *PhotoService) GetBreakdown() [][]interface{} {
+	photo_price, err := p.PhotoPrice()
+	if err != nil {
+		return [][]interface{}{}
+	}
 	return [][]interface{}{
-		{"Width", fmt.Sprintf("%d inches", p.Width)},
-		{"Height", fmt.Sprintf("%d inches", p.Height)},
-		{"Area", fmt.Sprintf("%.2f sq. inches", p.GetArea())},
-		{"Paper Type", p.Paper},
+		{"Size: ", fmt.Sprintf("%d x %d inches", p.Width, p.Height)},
+		{"Area: ", fmt.Sprintf("%.2f sq. inches", p.GetArea())},
+		{"Paper Type: ", p.Paper},
+		{"Photo Price: ", fmt.Sprintf("%.2f", photo_price)},
+		{"Lamination Price: ", fmt.Sprintf("%.2f", p.GetLaminationPrice())},
 	}
 }

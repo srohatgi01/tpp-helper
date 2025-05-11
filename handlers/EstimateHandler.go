@@ -14,6 +14,7 @@ func EstimateHandler(c *fiber.Ctx) error {
 	widthStr := c.FormValue("width")
 	heightStr := c.FormValue("height")
 	paper := c.FormValue("paper")
+	lamination := c.FormValue("lamination")
 
 	// convert string to int
 	width, err1 := strconv.Atoi(widthStr)
@@ -24,9 +25,10 @@ func EstimateHandler(c *fiber.Ctx) error {
 	}
 
 	photoService := service.PhotoService{
-		Width:  width,
-		Height: height,
-		Paper:  paper,
+		Width:      width,
+		Height:     height,
+		Paper:      paper,
+		Lamination: lamination == "on",
 	}
 
 	total, err := photoService.CalculateTotal()
@@ -35,10 +37,11 @@ func EstimateHandler(c *fiber.Ctx) error {
 	}
 
 	return c.Render("index", fiber.Map{
-		"Width":  width,
-		"Height": height,
-		"Paper":  paper,
-		"Papers": data.GetPaperList(),
+		"Width":      width,
+		"Height":     height,
+		"Paper":      paper,
+		"Papers":     data.GetPaperList(),
+		"Lamination": lamination,
 		"Result": fiber.Map{
 			"Total":     total,
 			"Area":      photoService.GetArea(),

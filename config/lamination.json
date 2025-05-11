@@ -1,0 +1,22 @@
+{
+    "normal_lamination": {
+        "price": 1.50,
+        "name": "Normal Lamination",
+        "seller": "self"
+    },
+    "sparkle_lamination": {
+        "price": 2.00,
+        "name": "Sparkle Lamination",
+        "seller": "self"
+    },
+    "senko_normal_lamination": {
+        "seller": "senko",
+        "price": 1.50,
+        "name": "Normal Lamination"
+    },
+    "senko_sparkle_lamination": {
+        "seller": "senko",
+        "price": 2.00,
+        "name": "Sparkle Lamination"
+    }
+}
